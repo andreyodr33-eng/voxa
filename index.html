@@ -336,7 +336,31 @@ function getAllScenarios() {
     });
 
 }
+  function saveSession(session) {
+return new Promise((resolve, reject) => {
 
+    const transaction =
+        db.transaction(
+            STORE_SESSIONS,
+            "readwrite"
+        );
+
+    const store =
+        transaction.objectStore(
+            STORE_SESSIONS
+        );
+
+    const request =
+        store.put(session);
+
+    request.onsuccess = () =>
+        resolve();
+
+    request.onerror = () =>
+        reject(request.error);
+
+});
+}
 
 /* =========================================================
    LOAD SCENARIOS INTO SCREEN
