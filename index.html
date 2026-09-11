@@ -765,7 +765,33 @@ function processAnswer(text) {
 
 }
 
+async function finishCall() {
+if (!App.scenario)
+    return;
 
+const session = {
+
+    id: Date.now(),
+
+    date:
+        new Date().toISOString(),
+
+    scenario:
+        App.scenario.title,
+
+    results:
+        App.session
+
+};
+
+await saveSession(
+    session
+);
+
+alert(
+    "Conversation saved."
+);
+}
 /* =========================================================
    HISTORY
    ========================================================= */
