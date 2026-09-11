@@ -789,7 +789,13 @@ const session = {
 await saveSession(
     session
 );
+const sessions =
+    await getAllSessions();
 
+console.log(
+    "Saved sessions:",
+    sessions
+);
 alert(
     "Conversation saved."
 );
