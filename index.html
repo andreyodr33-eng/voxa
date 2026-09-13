@@ -650,7 +650,19 @@ function getNode(id) {
 
 }
 
+// Разблокировка речи в Safari на iPhone    
+document.addEventListener(
+    "pointerup",
+    ()=>{
 
+        const u =
+            new SpeechSynthesisUtterance(" ");
+
+        speechSynthesis.speak(u);
+
+    },
+    { once:true }
+);
 /* =========================================================
    START CALL
    ========================================================= */
