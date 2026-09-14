@@ -1100,29 +1100,25 @@ document
 
          }
     );
-document .getElementById("callBtn") .addEventListener( "click", function() {
+    document .getElementById("callBtn") .addEventListener( "click", function() {
         const audio =
             new Audio("ring.mp3");
 
         audio.play();
 
-        setTimeout(
-            function() {
+        audio.onended = function() {
 
-                audio.currentTime = 0;
-                audio.play();
+            audio.currentTime = 0;
 
-                setTimeout(
-                    function() {
-                        startCall();
-                 
-              },
-              3000
-            );
+            audio.play();
 
-            },
-            1000
-        );
+            audio.onended = function() {
+
+                startCall();
+
+            };
+
+        };
 
     }
 );
