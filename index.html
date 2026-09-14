@@ -738,34 +738,69 @@ document.addEventListener(
    ========================================================= */
 
 function speak(text) {
+speechSynthesis.cancel();
 
-    if (!window.speechSynthesis) {
+const utter =
+    new SpeechSynthesisUtterance(text);
 
-        return;
+utter.lang = "en-US";
 
-    }
+utter.rate = 0.8;
 
+const voices =
+    speechSynthesis.getVoices();
 
-    speechSynthesis.cancel();
+const englishVoice =
 
+    voices.find(v =>
+        v.name === "Karen"
+    )
 
-    const utterance =
-        new SpeechSynthesisUtterance(
-            text
-        );
+    ||
 
+    voices.find(v =>
+        v.name === "Samantha"
+    )
 
-    utterance.lang =
-        App.scenario.language ||
-        "en-US";
-    utterance.onend = function() {
-      startListening();
-   };
-    speechSynthesis.speak(
-        utterance
+    ||
+
+    voices.find(v =>
+        v.name === "Daniel"
+    )
+
+    ||
+
+    voices.find(v =>
+        v.lang.includes("en")
     );
 
+if (englishVoice) {
+
+    utter.voice =
+        englishVoice;
+
 }
+
+utter.onend = function() {
+
+    startListening();
+
+};
+
+speechSynthesis.speak(utter);
+}
+
+    
+
+        
+
+    
+
+
+    
+
+
+    
 
 function startListening() {
 const SpeechRecognition =
