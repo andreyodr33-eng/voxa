@@ -144,18 +144,23 @@
                   transform: translateY(0);
        }
         .call-button {
-                  width: 64px;
-                  height: 64px;
-                  border-radius: 50%;
-                  border: none;
-                  background: #28a745;
-                  color: white;
-                  font-size: 28px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  cursor: pointer;
-        }
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: none;
+            background: #28a745;
+            color: white;
+           font-size: 30px;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           cursor: pointer;
+     }
+
+     .buttons {
+           display: flex;
+          justify-content: center;
+     }
 </style>
 </head>
 
@@ -220,8 +225,10 @@
 <h2>English Teacher</h2>
 
 <button id="callBtn" class="call-button">
-        📞 
-    </button>
+    ☎
+</button>
+     
+    
   </div>
 </div>
 <div id="callScreen" class="screen hidden">
