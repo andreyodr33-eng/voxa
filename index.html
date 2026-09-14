@@ -669,7 +669,11 @@ function startCall() {
         return;
 
     }
+  callActive = true;
 
+  document
+     .getElementById("callBtn")
+     .classList.add("end-call");
 
     App.session = [];
 
