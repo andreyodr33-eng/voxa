@@ -1100,28 +1100,41 @@ document
 
          }
     );
-    document .getElementById("callBtn") .addEventListener( "click", function() {
+  document .getElementById("callBtn") .addEventListener( "click", function() {
         const audio =
             new Audio("ring.mp3");
 
         audio.play();
 
-        audio.onended = function() {
+        setTimeout(
+            function() {
 
-            audio.currentTime = 0;
+                audio.currentTime = 0;
+                audio.play();
 
-            audio.play();
+                setTimeout(
+                    function() {
 
-            audio.onended = function() {
+                        startCall();
 
-                startCall();
+                    },
+                    2000
+                );
 
-            };
-
-        };
+            },
+            1000
+        );
 
     }
-);
+);  
+        
+            
+
+        
+
+        
+
+            
 /* =========================================================
    ENTER KEY
 
