@@ -3,8 +3,8 @@
   "short_name": "voxa",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#1c1c1c",
-  "theme_color": "#1c1c1c",
+  "background_color": "#f2f2f2",
+  "theme_color": "#f2f2f2",
   "icons": [
       {
       "src": "actions/icon-32.png",
