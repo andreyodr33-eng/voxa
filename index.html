@@ -1121,11 +1121,6 @@ document
         finishCall
     );
 
-
-
-
-
-
 document 
      .getElementById("bottomHandle") 
      .addEventListener( 
@@ -1138,6 +1133,28 @@ document
          }
     );
 document .getElementById("callBtn") .addEventListener( "click", function() {
+        if (callActive) {
+
+            speechSynthesis.cancel();
+
+            if (recognition) {
+
+                recognition.stop();
+
+            }
+
+            callActive = false;
+
+            document
+                .getElementById("callBtn")
+                .classList.remove(
+                    "end-call"
+                );
+
+            return;
+
+        }
+
         const audio =
             new Audio("ring.wav");
 
@@ -1151,11 +1168,12 @@ document .getElementById("callBtn") .addEventListener( "click", function() {
 
                 setTimeout(
                     function() {
+
                         startCall();
-                 
-              },
-              2000
-            );
+
+                    },
+                    2000
+                );
 
             },
             1000
