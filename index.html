@@ -1133,24 +1133,6 @@ document
          }
     );
 document .getElementById("callBtn") .addEventListener( "click", function() {
-        if (callActive) {
-
-            speechSynthesis.cancel();
-
-            
-
-            callActive = false;
-
-            document
-                .getElementById("callBtn")
-                .classList.remove(
-                    "end-call"
-                );
-
-            return;
-
-        }
-
         const audio =
             new Audio("ring.wav");
 
@@ -1164,12 +1146,11 @@ document .getElementById("callBtn") .addEventListener( "click", function() {
 
                 setTimeout(
                     function() {
-
                         startCall();
-
-                    },
-                    2000
-                );
+                 
+              },
+              2000
+            );
 
             },
             1000
@@ -1177,6 +1158,8 @@ document .getElementById("callBtn") .addEventListener( "click", function() {
 
     }
 );
+
+        
 /* =========================================================
    ENTER KEY
 
