@@ -877,19 +877,33 @@ try {
             const audioContext =
                 new AudioContext();
 
-            const audioBuffer =
-                await audioContext.decodeAudioData(
-                    arrayBuffer
-                );
+            console.log("Whisper: decoding audio...");
 
-            const audio =
-                audioBuffer
-                    .getChannelData(0);
+const audioBuffer =
+    await audioContext.decodeAudioData(
+        arrayBuffer
+    );
 
-            const result =
-                await window.voxaWhisper(
-                    audio
-                );
+console.log(
+    "Whisper: audio decoded"
+);
+
+const audio =
+    audioBuffer
+        .getChannelData(0);
+
+console.log(
+    "Whisper: sending to model..."
+);
+
+const result =
+    await window.voxaWhisper(
+        audio
+    );
+
+console.log(
+    "Whisper: model finished"
+);
 
             console.log(
                 "Whisper recognized:",
