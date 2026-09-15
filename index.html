@@ -278,11 +278,8 @@
         window.voxaWhisper =
             await pipeline(
                 "automatic-speech-recognition",
-                "onnx-community/whisper-tiny.en",
-             {  
-                device: "webgpu"
-             }
-            );
+                "Xenova/whisper-tiny.en",
+         );
 
         console.log("Whisper loaded");
 
