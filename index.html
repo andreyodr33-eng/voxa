@@ -263,7 +263,18 @@
   </div>
 </div>
 <script>
+<script type="module">
+    import { pipeline } from
+        "https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.2.0";
 
+    window.voxaWhisper =
+        await pipeline(
+            "automatic-speech-recognition",
+            "onnx-community/whisper-tiny.en"
+        );
+
+    console.log("Whisper loaded");
+</script>
 /* =========================================================
    APPLICATION
    ========================================================= */
