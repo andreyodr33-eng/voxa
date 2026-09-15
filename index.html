@@ -278,7 +278,7 @@
         window.voxaWhisper =
             await pipeline(
                 "automatic-speech-recognition",
-                "Xenova/whisper-tiny.en"
+                "Xenova/wav2vec2-base-960h"
          );
 
         console.log("Whisper loaded");
@@ -937,7 +937,7 @@ console.log(
             }
 
         },
-        4000
+        8000
     );
 
 } catch (error) {
