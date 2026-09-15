@@ -262,19 +262,37 @@
     </button>
   </div>
 </div>
-<script type=:"module">
-    import { pipeline } from
-        "https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.2.0";
+<script type="module">
 
-    window.voxaWhisper =
-        await pipeline(
-            "automatic-speech-recognition",
-            "onnx-community/whisper-tiny.en"
+    console.log("Whisper: starting...");
+
+    try {
+
+        const { pipeline } =
+            await import(
+                "https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.2.0"
+            );
+
+        console.log("Whisper: library loaded");
+
+        window.voxaWhisper =
+            await pipeline(
+                "automatic-speech-recognition",
+                "onnx-community/whisper-tiny.en"
+            );
+
+        console.log("Whisper loaded");
+
+    } catch (error) {
+
+        console.error(
+            "Whisper error:",
+            error
         );
 
-    console.log("Whisper loaded");
-</script>
+    }
 
+</script>
     
 <script>
 /* =========================================================
