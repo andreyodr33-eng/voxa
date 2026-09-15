@@ -279,6 +279,9 @@
             await pipeline(
                 "automatic-speech-recognition",
                 "onnx-community/whisper-tiny.en"
+                {
+                    device: "webgpu"
+                 }
             );
 
         console.log("Whisper loaded");
