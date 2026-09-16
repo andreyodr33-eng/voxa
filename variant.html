@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    
+
+    <title>voxa</title>
+    <link rel="manifest" href="manifest.json" /> 
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+
+        .app {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+
+        input[type="file"] {
+            margin: 10px 0;
+        }
+
+        #question {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eeeeee;
+            border-radius: 8px;
+            min-height: 30px;
+        }
+
+        #answerInput {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .row {
+            padding: 10px;
+            margin-top: 10px;
+            background: #f7f7f7;
+            border-radius: 8px;
+        }
+
+        .good {
+            color: green;
+        }
+
+        .bad {
+            color: red;
+        }
+
+        #scenarioList {
+            margin-top: 15px;
+        }
+
+        .scenario {
+            padding: 10px;
+            margin-top: 5px;
+            background: #eeeeee;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .scenario:hover {
+            background: #dddddd;
+        }
+                .avatar { 
+                width: 220px; 
+                height: 220px;
+                border-radius: 50%;
+
+                background: #ddd;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                font-size: 100px;
+
+                margin: 20px auto;
+           }
+         .hidden{
+             display:none !important;
+          }
+         .screen{
+              text-align:center;
+
+              max-width:500px;
+
+              margin:0 auto;
+
+              padding:20px;
+           }
+     /* Нижняя панель Backup & Restore */
+        #bottomPanel { 
+             position: fixed; 
+             left: 0; 
+             right: 0; 
+             bottom: 0;
+             background: white;
+             border-top: 1px solid #ccc;
+             box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
+             z-index: 1000;
+             transform: translateY(calc(100% - 45px));
+             transition: transform 0.3s ease;
+       }
+        /* Ручка панели */
+        #bottomHandle { 
+               height: 45px;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               font-size: 20px;
+               cursor: pointer;
+       }
+        /* Содержимое панели */
+       #panelContent { 
+                padding: 10px 20px 25px;
+                text-align: center; 
+       }
+        #bottomPanel.open {
+                  transform: translateY(0);
+       }
+        .call-button { 
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: none;
+            background: #28a745; 
+            color: white; 
+            font-size: 30px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer;
+            margin-left: auto;
+            margin-right: auto;
+       }
+        .call-button.end-call {
+            background: #dc3545;
+        }     
+</style>
+</head>
+
+
+<body>
+<div id="incomingScreen"
+      class="screen">
+</div>
+
+<div id="callScreen"
+      class="screen hidden">
+</div>
+
+<div id="resultScreen">
+
+</div>
+<div class="app">
+<div id="bottomPanel">
+   <div id="bottomHandle">
+    ▲
+</div>
+
+<div id="panelContent">
+
+    <h3>Backup & Restore</h3>
+
+    <input
+        type="file"
+        id="fileInput"
+        accept=".json"
+    >
+
+    <br>
+
+    <button id="importButton">
+        Import JSON
+    </button>
+
+    <h3>Saved scenarios</h3>
+    <div id="scenarioList">
+        No scenarios saved.
+    </div>
+
+    <button id="startButton">
+        Start Call
+    </button>
+
+    <button id="finishButton">
+        Finish Call
+    </button>
+
+  </div> 
+
+    
+ </div>
+
+
+<div id="incomingScreen" class="screen">
+<div class="avatar">
+ 👤
+</div>
+<h2>English Teacher</h2>
+
+<button id="callBtn" class="call-button">
+    &#x1F4DE;
+</button>
+     
+    
+  </div>
+</div>
+<div id="callScreen" class="screen hidden">
+<div id="timer">
+    00:00
+</div>
+
+<div class="avatar"></div>
+<h2>English Teacher</h2>
+
+<div id="status">
+    Connected
+</div>
+
+<div id="question">
+    ...
+</div>
+
+<input
+    id="answerInput"
+    type="text">
+
+<div class="buttons">
+
+    <button id="micBtn">
+        🎤
+    </button>
+
+    <button id="endBtn">
+        End Call
+    </button>
+  </div>
+</div>
+    
+<script>
+/* =========================================================
+   APPLICATION
+   ========================================================= */
+
+const App = {
+
+    scenario: null,
+
+    currentNode: null,
+
+    session: []
+
+};
+
+
+/* =========================================================
+   INDEXEDDB
+   ========================================================= */
+
+const DB_NAME = "LanguageCallDB";
+
+const DB_VERSION = 2;
+
+const STORE_SCENARIOS = "scenarios";
+const STORE_SESSIONS = "sessions";
+let db;
+let callActive = false;
+
+/* =========================================================
+   OPEN DATABASE
+   ========================================================= */
+
+function openDatabase() {
+
+    return new Promise((resolve, reject) => {
+
+        const request =
+            indexedDB.open(DB_NAME, DB_VERSION);
+
+
+        request.onupgradeneeded = function(event) {
+
+            const database = event.target.result;
+
+            if (!database.objectStoreNames.contains(STORE_SCENARIOS)) {
+
+                database.createObjectStore(
+                    STORE_SCENARIOS,
+                    {
+                        keyPath: "id"
+                    }
+                );
+
+            }
+        if (!database.objectStoreNames.contains(STORE_SESSIONS)) {
+
+                database.createObjectStore(
+                    STORE_SESSIONS,
+                    {
+                        keyPath: "id"
+                    }
+                );
+
+            }
+
+        };
+
+
+        request.onsuccess = function(event) {
+
+            db = event.target.result;
+
+            resolve(db);
+
+        };
+
+
+        request.onerror = function() {
+
+            reject(request.error);
+
+        };
+
+    });
+
+}
+
+
+/* =========================================================
+   SAVE SCENARIO
+   ========================================================= */
+
+function saveScenario(scenario) {
+
+    return new Promise((resolve, reject) => {
+
+        const transaction =
+            db.
+
+transaction(
+                STORE_SCENARIOS,
+                "readwrite"
+            );
+
+
+        const store =
+            transaction.objectStore(
+                STORE_SCENARIOS
+            );
+
+
+        const data = {
+
+            id: scenario.id || scenario.title,
+
+            title: scenario.title,
+
+            language: scenario.language || "en-US",
+
+            scenario: scenario
+
+        };
+
+
+        const request =
+            store.put(data);
+
+
+        request.onsuccess = function() {
+
+            resolve();
+
+        };
+
+
+        request.onerror = function() {
+
+            reject(request.error);
+
+        };
+
+    });
+
+}
+ function saveSession(session) {
+return new Promise((resolve, reject) => {
+
+    const transaction =
+        db.transaction(
+            STORE_SESSIONS,
+            "readwrite"
+        );
+
+    const store =
+        transaction.objectStore(
+            STORE_SESSIONS
+        );
+
+    const request =
+        store.put(session);
+
+    request.onsuccess = () =>
+        resolve();
+
+    request.onerror = () =>
+        reject(request.error);
+
+});
+}
+
+function getAllSessions() {
+return new Promise((resolve, reject) => {
+
+    const transaction =
+        db.transaction(
+            STORE_SESSIONS,
+            "readonly"
+        );
+
+    const store =
+        transaction.objectStore(
+            STORE_SESSIONS
+        );
+
+    const request =
+        store.getAll();
+
+    request.onsuccess = () =>
+        resolve(request.result);
+
+    request.onerror = () =>
+        reject(request.error);
+
+});
+}
+
+/* =========================================================
+   GET ALL SCENARIOS
+   ========================================================= */
+
+function getAllScenarios() {
+
+    return new Promise((resolve, reject) => {
+
+        const transaction =
+            db.transaction(
+                STORE_SCENARIOS,
+                "readonly"
+            );
+
+
+        const store =
+            transaction.objectStore(
+                STORE_SCENARIOS
+            );
+
+
+        const request =
+            store.getAll();
+
+
+        request.onsuccess = function() {
+
+            resolve(request.result);
+
+        };
+
+
+        request.onerror = function() {
+
+            reject(request.error);
+
+        };
+
+    });
+
+}
+ /* =========================================================
+   LOAD SCENARIOS INTO SCREEN
+   ========================================================= */
+
+async function loadScenarioList() {
+
+    const scenarios =
+        await getAllScenarios();
+
+
+    const container =
+        document.getElementById("scenarioList");
+
+
+    container.innerHTML = "";
+
+
+    if (scenarios.length === 0) {
+
+        container.textContent =
+            "No scenarios saved.";
+
+        return;
+
+    }
+    App.scenario =
+        scenarios[0].scenario;
+
+    scenarios.forEach(item => {
+
+        const div =
+            document.createElement("div");
+
+
+        div.className = "scenario";
+
+
+        div.textContent =
+            item.title +
+            " (" +
+            item.language +
+            ")";
+
+
+        div.onclick = function() {
+
+            App.scenario =
+                item.scenario;
+
+
+            alert(
+                "Scenario selected: " +
+                App.scenario.title
+            );
+
+        };
+
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================================================
+   IMPORT JSON
+   ========================================================= */
+
+async function importScenario() {
+
+    const file =
+        document.getElementById(
+            "fileInput"
+        ).files[0];
+
+
+    if (!file) {
+
+        alert("Choose a JSON file first.");
+
+        return;
+
+    }
+
+
+    try {
+
+        const text =
+            await file.text();
+
+
+        const scenario =
+            JSON.parse(text);
+
+
+        /*
+         * If JSON doesn't contain an ID,
+         * use title as temporary ID.
+         */
+
+        if (!scenario.id) {
+
+            scenario.id =
+                scenario.title;
+
+        }
+
+
+        await saveScenario(
+            scenario
+        );
+
+
+        App.scenario =
+            scenario;
+
+
+        await loadScenarioList();
+
+
+        alert(
+            "Scenario saved: " +
+            scenario.title
+        );
+
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+
+        alert(
+            "Error reading JSON file."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   GET NODE
+   ========================================================= */
+
+function getNode(id) {
+
+    return App.scenario.nodes.find(
+        node => node.id === id
+    );
+
+}
+
+
+/* =========================================================
+   START CALL
+   ========================================================= */
+
+function startCall() {
+
+    if (!App.scenario) {
+
+        alert(
+            "Select or import a scenario first."
+        );
+
+        return;
+
+    }
+  callActive = true;
+
+  document
+     .getElementById("callBtn")
+     .classList.add("end-call");
+
+    App.session = [];
+
+
+    App.currentNode =
+        App.scenario.startNode;
+
+    showCurrentNode();
+
+}
+
+
+/* =========================================================
+   SHOW CURRENT QUESTION
+   ========================================================= */
+
+function showCurrentNode() {
+
+    const node =
+        getNode(
+            App.currentNode
+        );
+
+
+    if (!node) {
+
+        alert(
+            "Node not found: " +
+            App.currentNode
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "question"
+    ).textContent =
+        node.question;
+
+
+    speak(
+        node.question
+    );
+
+}
+    
+// Разблокировка речи в Safari на iPhone    
+document.addEventListener(
+    "pointerup",
+    ()=>{
+
+        const u =
+            new SpeechSynthesisUtterance(" ");
+
+        speechSynthesis.speak(u);
+
+    },
+    { once:true }
+);
+
+
+/* =========================================================
+   TEXT TO SPEECH
+   ========================================================= */
+
+function speak(text) {
+speechSynthesis.cancel();
+
+const utter =
+    new SpeechSynthesisUtterance(text);
+
+utter.lang = "en-US";
+
+utter.rate = 0.8;
+
+const voices =
+    speechSynthesis.getVoices();
+
+const englishVoice =
+
+    voices.find(v =>
+        v.name === "Karen"
+    )
+
+    ||
+
+    voices.find(v =>
+        v.name === "Samantha"
+    )
+
+    ||
+
+    voices.find(v =>
+        v.name === "Daniel"
+    )
+
+    ||
+
+    voices.find(v =>
+        v.lang.includes("en")
+    );
+
+if (englishVoice) {
+
+    utter.voice =
+        englishVoice;
+
+}
+
+utter.onend = function() {
+
+    startListening();
+
+};
+
+speechSynthesis.speak(utter);
+}
+
+function startListening() {
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+
+    console.log(
+        "Speech recognition is not supported."
+    );
+
+    return;
+
+}
+
+const recognition =
+    new SpeechRecognition();
+
+recognition.lang =
+    App.scenario.language || "en-US";
+
+recognition.interimResults = false;
+
+recognition.continuous = false;
+
+recognition.onstart = function() {
+
+    console.log(
+        "Microphone: listening..."
+    );
+
+};
+
+recognition.onresult = function(event) {
+const text =
+    event.results[0][0].transcript;
+
+console.log(
+    "Recognized:",
+    text
+);
+
+processAnswer(text);
+};
+
+recognition.onerror = function(event) {
+
+    console.log(
+        "Speech recognition error:",
+        event.error
+    );
+
+};
+
+recognition.onend = function() {
+
+    console.log(
+        "Microphone: stopped."
+    );
+
+};
+
+recognition.start();
+}
+
+
+
+
+    
+    
+
+
+
+    
+        
+    
+
+    
+
+
+
+
+
+ 
+
+
+function showIncomingScreen() {
+document
+    .getElementById("incomingScreen")
+    .classList.remove("hidden");
+
+document
+    .getElementById("callScreen")
+    .classList.add("hidden");
+}
+function showCallScreen() {
+document
+    .getElementById("incomingScreen")
+    .classList.add("hidden");
+
+document
+    .getElementById("callScreen")
+    .classList.remove("hidden");
+}
+/* =========================================================
+   SEND ANSWER
+   ========================================================= */
+
+function submitAnswer() {
+
+    const input =
+        document.getElementById(
+            "answerInput"
+        );
+
+
+    const answer =
+        input.value.trim();
+
+
+    if (!answer) {
+
+        return;
+
+    }
+
+
+    processAnswer(answer);
+
+
+    input.value = "";
+
+}
+
+
+/* =========================================================
+   PROCESS ANSWER
+   ========================================================= */
+
+function processAnswer(text) {
+
+    const node =
+        getNode(
+            App.currentNode
+        );
+
+
+    let matched = false;
+
+    let nextNode = null;
+
+
+    for (
+        const transition
+        of node.transitions
+    ) {
+
+        for (
+            const phrase
+            of transition.accepted
+        ) {
+
+            if (
+                text
+                .toLowerCase()
+                .includes(
+                    phrase.toLowerCase()
+                )
+            ) {
+
+                matched = true;
+
+                nextNode =
+                    transition.next;
+
+                break;
+
+            }
+
+        }
+
+
+        if (matched) {
+
+            break;
+
+        }
+
+    }
+
+
+    addHistory(
+        node.question,
+        text,
+        matched
+    );
+
+
+    if (nextNode) {
+
+        App.currentNode =
+            nextNode;
+
+
+        showCurrentNode();
+
+    }
+
+    else {
+
+        document.getElementById(
+            "question"
+        ).textContent =
+            "Sorry, I didn't understand.";
+
+
+        speak(
+            "Sorry, I didn't understand."
+        );
+
+    }
+
+}
+
+async function finishCall() {
+if (!App.scenario)
+    return;
+
+const session = {
+
+    id: Date.now(),
+
+    date:
+        new Date().toISOString(),
+
+    scenario:
+        App.scenario.title,
+
+    results:
+        App.session
+
+};
+
+await saveSession(
+    session
+);
+const sessions =
+    await getAllSessions();
+
+console.log(
+    "Saved sessions:",
+    sessions
+);
+alert(
+    "Conversation saved."
+);
+}
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+function addHistory(
+    question,
+    answer,
+    success
+) {
+
+    const div =
+        document.createElement("div");
+
+
+    div.className =
+        "row";
+
+
+    div.innerHTML = `
+
+        <b>Question:</b>
+        ${question}
+
+        <br>
+
+        <b>Your answer:</b>
+        ${answer}
+
+        <br>
+
+        <span class="${success ? "good" : "bad"}">
+
+        ${
+            success
+            ? "Accepted"
+            : "Not accepted"
+        }
+
+        </span>
+
+    `;
+    
+App.session.push({
+question: question,
+
+answer: answer,
+
+success: success
+});
+}
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+document
+    .getElementById("importButton")
+    .addEventListener(
+        "click",
+        importScenario
+    );
+
+
+document
+    .getElementById("startButton")
+    .addEventListener(
+        "click",
+        startCall
+    );
+document
+    .getElementById("finishButton")
+    .addEventListener(
+        "click",
+        finishCall
+    );
+
+document 
+     .getElementById("bottomHandle") 
+     .addEventListener( 
+          "click", 
+          function() {
+              document
+                .getElementById("bottomPanel")
+                .classList.toggle("open");
+
+         }
+    );
+document .getElementById("callBtn") .addEventListener( "click", function() {
+        if (callActive) {
+
+            speechSynthesis.cancel();
+
+           callActive = false;
+
+            document
+                .getElementById("callBtn")
+                .classList.remove(
+                    "end-call"
+                );
+
+            return;
+
+        }
+
+        const audio =
+            new Audio("ring.wav");
+
+        audio.play();
+
+        setTimeout(
+            function() {
+
+                audio.currentTime = 0;
+                audio.play();
+
+                setTimeout(
+                    function() {
+
+                        startCall();
+
+                    },
+                    2000
+                );
+
+            },
+            1000
+        );
+
+    }
+);
+
+        
+
+        
+/* =========================================================
+   ENTER KEY
+
+========================================================= */
+
+
+
+
+/* =========================================================
+   INITIALIZATION
+   ========================================================= */
+
+async function init() {
+
+    try {
+
+        await openDatabase();
+
+        await loadScenarioList();
+
+        console.log(
+            "IndexedDB initialized."
+        );
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        alert(
+            "IndexedDB is not available."
+        );
+
+    }
+
+}
+
+
+init();
+navigator.mediaDevices
+    .getUserMedia({ audio: true })
+    .then(() => alert("Microphone OK"))
+    .catch(err => alert(err));
+</script>
+   
+</body>
+</html>
