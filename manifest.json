@@ -2,7 +2,7 @@
   "name": "voxa",
   "short_name": "voxa",
   "start_url": "/voxa/",
-  "display": "browser",
+  "display": "minimal-ui",
   "background_color": "#f2f2f2",
   "theme_color": "#f2f2f2",
   "icons": [
