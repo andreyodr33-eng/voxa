@@ -925,7 +925,13 @@ utter.onend = function() {
     startListening();
 
 };
-
+const mouth = document.querySelector(".mouth");
+utterance.onstart = () => {
+mouth.classList.add("talking");
+};
+utterance.onend = () => {
+mouth.classList.remove("talking");
+};
 speechSynthesis.speak(utter);
 }
 
