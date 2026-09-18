@@ -220,46 +220,79 @@
 
 <div class="avatar">
     
- <svg viewBox="0 0 220 220" width="220" height="220"
-     xmlns="http://www.w3.org/2000/svg">
+ <svg viewBox="0 0 220 220"
+width="220"
+height="220">
+<!-- фон круга -->
+<circle cx="110"
+        cy="110"
+        r="110"
+        fill="#d9d9d9"/>
 
-    <!-- лицо -->
-    <circle cx="110" cy="110" r="100" fill="#f2c6a0"/>
+<!-- волосы -->
+<path
+    fill="#5a3825"
+    d="
+    M40 105
+    C40 40 70 20 110 20
+    C150 20 180 40 180 105
+    L180 130
+    C170 90 145 75 110 75
+    C75 75 50 90 40 130
+    Z"/>
 
-    <!-- волосы -->
-    <path
-        d="M25 105
-           C15 45 55 10 110 10
-           C170 10 205 50 195 115
-           C180 80 165 65 145 55
-           C115 40 75 45 45 75
-           C35 85 30 95 25 105Z"
-        fill="#5b3a29"/>
+<!-- шея -->
+<rect x="95"
+      y="145"
+      width="30"
+      height="28"
+      rx="8"
+      fill="#f2c7a5"/>
 
-    <!-- левый глаз -->
-    <ellipse class="eye" cx="75" cy="105"
-             rx="10" ry="6" fill="white"/>
-    <circle cx="75" cy="105" r="4" fill="#222"/>
+<!-- лицо -->
+<ellipse cx="110"
+         cy="105"
+         rx="55"
+         ry="65"
+         fill="#f2c7a5"/>
 
-    <!-- правый глаз -->
-    <ellipse class="eye" cx="145" cy="105"
-             rx="10" ry="6" fill="white"/>
-    <circle cx="145" cy="105" r="4" fill="#222"/>
+<!-- левый глаз -->
+<g class="eye-left">
+    <ellipse cx="88"
+             cy="100"
+             rx="10"
+             ry="7"
+             fill="white"/>
 
-    <!-- нос -->
-    <path d="M105 110 C100 130 100 135 110 137"
-          fill="none"
-          stroke="#b77d5d"
-          stroke-width="3"
-          stroke-linecap="round"/>
+    <circle cx="88"
+            cy="100"
+            r="4"
+            fill="#222"/>
+</g>
 
-    <!-- рот -->
-    <ellipse class="mouth"
-             cx="110"
-             cy="155"
-             rx="18"
-             ry="5"
-             fill="#8b3040"/>
+<!-- правый глаз -->
+<g class="eye-right">
+    <ellipse cx="132"
+             cy="100"
+             rx="10"
+             ry="7"
+             fill="white"/>
+
+    <circle cx="132"
+            cy="100"
+            r="4"
+            fill="#222"/>
+</g>
+
+<!-- улыбка -->
+<path class="mouth"
+      d="M95 130 Q110 145 125 130"
+      stroke="#8b3040"
+      stroke-width="4"
+      fill="none"
+      stroke-linecap="round"/>
+
+
 
 </svg>
 </div>
