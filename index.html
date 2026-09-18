@@ -921,11 +921,11 @@ if (englishVoice) {
 }
 
 utter.onend = function() {
-
+    animateMouth(false);
     startListening();
 
 };
-
+animateMouth(true);
 speechSynthesis.speak(utter);
 }
 function animateMouth(start) {
