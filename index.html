@@ -191,21 +191,18 @@
     transform: scaleY(0.1);
 }
 }  
- .mouth { 
-     transform-origin: center; 
- }
-.mouth.talking { 
-    animation: talk 0.25s infinite alternate; 
-}
+  .mouth.talking { 
+      animation: talk 0.18s infinite alternate; 
+  }
 @keyframes talk {
-     from {
-         transform: scaleY(1);
-    }
+from {
+    ry: 3px;
+}
 
-      to {
-          transform: scaleY(2.5);
-    }
-}       
+to {
+    ry: 10px;
+}
+}     
 </style>
 </head>
 
