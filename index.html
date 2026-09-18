@@ -921,13 +921,57 @@ animateMouth(true);
 speechSynthesis.speak(utter);
 }
 function animateMouth(start) {
-const mouth = document.querySelector(".mouth");
+const mouth =
+    document.querySelector(".mouth");
 
-if (start) {
-    mouth.classList.add("talking");
-} else {
-    mouth.classList.remove("talking");
+if (!start) {
+
+    mouth.setAttribute("rx", "10");
+    mouth.setAttribute("ry", "3");
+
+    return;
 }
+
+function moveMouth() {
+
+    if (!mouth.classList.contains("talking")) {
+        return;
+    }
+
+    const state =
+        Math.floor(Math.random() * 3);
+
+    if (state === 0) {
+
+        // состояние 1 — почти закрыт
+        mouth.setAttribute("rx", "10");
+        mouth.setAttribute("ry", "3");
+
+    }
+
+    if (state === 1) {
+
+        // состояние 2 — открыт
+        mouth.setAttribute("rx", "11");
+        mouth.setAttribute("ry", "8");
+
+    }
+
+    if (state === 2) {
+
+        // состояние 3 — широкий
+        mouth.setAttribute("rx", "14");
+        mouth.setAttribute("ry", "5");
+
+    }
+
+    setTimeout(moveMouth, 100);
+
+}
+
+mouth.classList.add("talking");
+
+moveMouth();
 }
 function startListening() {
 const SpeechRecognition =
