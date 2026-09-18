@@ -920,11 +920,19 @@ utter.onend = function() {
 animateMouth(true);
 speechSynthesis.speak(utter);
 }
+let mouthTimer = null;
 function animateMouth(start) {
 const mouth =
     document.querySelector(".mouth");
 
+if (mouthTimer) {
+    clearTimeout(mouthTimer);
+    mouthTimer = null;
+}
+
 if (!start) {
+
+    mouth.classList.remove("talking");
 
     mouth.setAttribute("rx", "10");
     mouth.setAttribute("ry", "3");
@@ -943,36 +951,32 @@ function moveMouth() {
 
     if (state === 0) {
 
-        // состояние 1 — почти закрыт
         mouth.setAttribute("rx", "10");
         mouth.setAttribute("ry", "3");
 
-    }
+    } else if (state === 1) {
 
-    if (state === 1) {
-
-        // состояние 2 — открыт
         mouth.setAttribute("rx", "11");
         mouth.setAttribute("ry", "8");
 
-    }
+    } else {
 
-    if (state === 2) {
-
-        // состояние 3 — широкий
         mouth.setAttribute("rx", "14");
         mouth.setAttribute("ry", "5");
 
     }
 
-    setTimeout(moveMouth, 100);
-
+    mouthTimer =
+        setTimeout(moveMouth, 100);
 }
 
 mouth.classList.add("talking");
 
 moveMouth();
 }
+
+
+        
 function startListening() {
 const SpeechRecognition =
     window.SpeechRecognition ||
