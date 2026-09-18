@@ -928,7 +928,15 @@ utter.onend = function() {
 
 speechSynthesis.speak(utter);
 }
+function animateMouth(start) {
+const mouth = document.querySelector(".mouth");
 
+if (start) {
+    mouth.classList.add("talking");
+} else {
+    mouth.classList.remove("talking");
+}
+}
 function startListening() {
 const SpeechRecognition =
     window.SpeechRecognition ||
