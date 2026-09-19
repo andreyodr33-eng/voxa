@@ -1058,7 +1058,10 @@ let mouthTimer = null;
 function animateMouth(start) {
 const mouth =
     document.querySelector(".mouth");
-
+const teeth =
+    document.querySelector(".teeth");
+const tongue =
+    document.querySelector(".tongue");    
 if (mouthTimer) {
     clearTimeout(mouthTimer);
     mouthTimer = null;
