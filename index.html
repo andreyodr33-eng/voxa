@@ -1068,52 +1068,66 @@ if (mouthTimer) {
 }
 
 if (!start) {
+mouth.classList.remove("talking");
 
-    mouth.classList.remove("talking");
+mouth.setAttribute("rx", "9");
+mouth.setAttribute("ry", "2");
 
-    mouth.setAttribute("rx", "9");
-    mouth.setAttribute("ry", "2");
-    teeth.setAttribute("height", "0");
-    tongue.setAttribute("ry", "0");
+teeth.setAttribute("height", "0");
+tongue.setAttribute("ry", "0");
 
+return;
+}
+function moveMouth() {
+if (!mouth.classList.contains("talking")) {
     return;
 }
 
-function moveMouth() {
+const state =
+    Math.floor(Math.random() * 4);
 
-    if (!mouth.classList.contains("talking")) {
-        return;
-    }
+if (state === 0) {
 
-    const state =
-        Math.floor(Math.random() * 3);
+    // почти закрытый рот
+    mouth.setAttribute("rx", "10");
+    mouth.setAttribute("ry", "3");
 
-    if (state === 0) {
+    teeth.setAttribute("height", "0");
+    tongue.setAttribute("ry", "0");
 
-        mouth.setAttribute("rx", "10");
-        mouth.setAttribute("ry", "3");
+} else if (state === 1) {
 
-    } else if (state === 1) {
+    // слегка открыт
+    mouth.setAttribute("rx", "11");
+    mouth.setAttribute("ry", "4");
 
-        mouth.setAttribute("rx", "11");
-        mouth.setAttribute("ry", "8");
+    teeth.setAttribute("height", "1");
+    tongue.setAttribute("ry", "0");
 
-    } else {
+} else if (state === 2) {
 
-        mouth.setAttribute("rx", "14");
-        mouth.setAttribute("ry", "5");
+    // нормальное открытие
+    mouth.setAttribute("rx", "11");
+    mouth.setAttribute("ry", "6");
 
-    }
+    teeth.setAttribute("height", "2");
+    tongue.setAttribute("ry", "1");
 
-    mouthTimer =
-        setTimeout(moveMouth, 100);
+} else {
+
+    // широко открыт
+    mouth.setAttribute("rx", "13");
+    mouth.setAttribute("ry", "8");
+
+    teeth.setAttribute("height", "2");
+    tongue.setAttribute("ry", "2");
 }
 
+mouthTimer =
+    setTimeout(moveMouth, 100);
+}
 mouth.classList.add("talking");
-
 moveMouth();
-}
-
 
         
 function startListening() {
