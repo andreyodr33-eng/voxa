@@ -1137,7 +1137,48 @@ mouthTimer =
 mouth.classList.add("talking");
 moveMouth();
 }
-        
+const pupilLeft = document.querySelector(".pupil-left");
+const pupilRight = document.querySelector(".pupil-right");
+function moveEyes() {
+const directions = [
+    { x: 0,  y: 0 },   // прямо
+    { x: 2,  y: 0 },   // вправо
+    { x: -2, y: 0 },   // влево
+    { x: 0,  y: -1 },  // немного вверх
+    { x: 0,  y: 1 }    // немного вниз
+];
+
+const direction =
+    directions[
+        Math.floor(Math.random() * directions.length)
+    ];
+
+pupilLeft.setAttribute(
+    "cx",
+    88 + direction.x
+);
+
+pupilLeft.setAttribute(
+    "cy",
+    100 + direction.y
+);
+
+pupilRight.setAttribute(
+    "cx",
+    132 + direction.x
+);
+
+pupilRight.setAttribute(
+    "cy",
+    100 + direction.y
+);
+
+const pause =
+    800 + Math.random() * 1400;
+
+setTimeout(moveEyes, pause);
+}
+moveEyes();        
 function startListening() {
 const SpeechRecognition =
     window.SpeechRecognition ||
