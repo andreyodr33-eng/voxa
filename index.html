@@ -925,33 +925,54 @@ function getNode(id) {
 /* =========================================================
    START CALL
    ========================================================= */
-
 function startCall() {
+if (!App.scenario) {
 
-    if (!App.scenario) {
+    alert(
+        "Select or import a scenario first."
+    );
 
-        alert(
-            "Select or import a scenario first."
-        );
-
-        return;
-
-    }
-  callActive = true;
-
-  document
-     .getElementById("callBtn")
-     .classList.add("end-call");
-
-    App.session = [];
-
-
-    App.currentNode =
-        App.scenario.startNode;
-
-    showCurrentNode();
+    return;
 
 }
+
+// Если вызов уже идёт — завершаем его
+if (callActive) {
+
+    callActive = false;
+
+    // Остановить микрофон
+    if (recognition) {
+        recognition.stop();
+        recognition = null;
+    }
+
+    // Остановить голос учителя
+    speechSynthesis.cancel();
+
+    // Закрыть рот
+    animateMouth(false);
+
+    console.log("Call ended.");
+
+    return;
+}
+
+// Если вызова нет — начинаем
+callActive = true;
+
+document
+    .getElementById("callBtn")
+    .classList.add("end-call");
+
+App.session = [];
+
+App.currentNode =
+    App.scenario.startNode;
+
+showCurrentNode();
+}
+
 
 
 /* =========================================================
