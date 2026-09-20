@@ -556,7 +556,7 @@ const STORE_SCENARIOS = "scenarios";
 const STORE_SESSIONS = "sessions";
 let db;
 let callActive = false;
-
+let recognition = null;
 /* =========================================================
    OPEN DATABASE
    ========================================================= */
@@ -1193,7 +1193,7 @@ if (!SpeechRecognition) {
 
 }
 
-const recognition =
+recognition =
     new SpeechRecognition();
 
 recognition.lang =
