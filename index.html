@@ -1527,22 +1527,48 @@ document
 document .getElementById("callBtn") .addEventListener( "click", function() {
         if (callActive) {
 
+            // Завершаем разговор
+            callActive = false;
+
+            // Останавливаем микрофон
+            if (recognition) {
+                recognition.abort();
+                recognition = null;
+            }
+
+            // Останавливаем речь учителя
             speechSynthesis.cancel();
 
-           callActive = false;
+            // Закрываем рот
+            animateMouth(false);
 
+            // Возвращаем кнопку в зелёное состояние
             document
                 .getElementById("callBtn")
                 .classList.remove(
                     "end-call"
                 );
 
-            return;
+            console.log(
+                "Call ended."
+            );
 
+            return;
         }
 
         const audio =
             new Audio("call.wav");
+
+        // дальше оставь свой существующий код
+        // запуска вызова без изменений
+                    
+                
+
+            
+
+    
+
+        
 
         audio.play();
 
