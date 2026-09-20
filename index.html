@@ -1076,8 +1076,10 @@ if (englishVoice) {
 
 utter.onend = function() {
     animateMouth(false);
+    if (!callActive) {
+        return;
+    }    
     startListening();
-
 };
 animateMouth(true);
 speechSynthesis.speak(utter);
