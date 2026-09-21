@@ -1169,7 +1169,9 @@ utter.onend = function() {
     }    
     startListening();
 };
-animateMouth(true);
+utter.onstart = function() {    
+    animateMouth(true);
+};    
 speechSynthesis.speak(utter);
 }
 let mouthTimer = null;
