@@ -1575,6 +1575,35 @@ answer: answer,
 success: success
 });
 }
+
+async function startMicrophone() {
+try {
+
+    const stream =
+        await navigator.mediaDevices.getUserMedia({
+            audio: true
+        });
+
+    stream.getTracks().forEach(
+        track => track.stop()
+    );
+
+    console.log(
+        "Microphone permission granted."
+    );
+
+    return true;
+
+} catch (error) {
+
+    console.log(
+        "Microphone permission error:",
+        error
+    );
+
+    return false;
+}
+}    
 /* =========================================================
    BUTTONS
    ========================================================= */
