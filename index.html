@@ -1679,11 +1679,7 @@ document .getElementById("callBtn")
 
             return;
         }
-        const microphoneReady =
-            await startMicrophone();
-        if (!microphoneReady) {
-            return;
-        }
+        startMicrophone();
         const audio =
             new Audio("call.wav");
 
