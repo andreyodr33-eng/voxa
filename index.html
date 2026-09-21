@@ -644,7 +644,7 @@ const STORE_SESSIONS = "sessions";
 let db;
 let callActive = false;
 let recognition = null;
-let microphoneReady = false;    
+    
 /* =========================================================
    OPEN DATABASE
    ========================================================= */
@@ -1578,10 +1578,6 @@ success: success
 }
 
 async function startMicrophone() {
-if (microphoneReady) {
-    return true;
-}
-
 try {
 
     const stream =
@@ -1592,8 +1588,6 @@ try {
     stream.getTracks().forEach(
         track => track.stop()
     );
-
-    microphoneReady = true;
 
     console.log(
         "Microphone permission granted."
@@ -1611,6 +1605,8 @@ try {
     return false;
 }
 }
+
+    
 
        
 /* =========================================================
