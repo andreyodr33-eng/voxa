@@ -203,30 +203,18 @@
 #finishButton {
     display: none;
 }
-#fileInput {
-    width: 220px;
-    height: 44px;
-    font-size: 16px;
-    cursor: pointer;
-    display: block;
-    margin: 10px auto;
-}
+#fileInput { display: none; }
+.fileButton { width: 220px; height: 44px; border: none; border-radius: 12px; font-size: 16px; cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
 
-#fileInput::file-selector-button {
-    height: 44px;
-    padding: 0 18px;
-    margin-right: 10px;
-    border: none;
-    border-radius: 12px;
-    background: #6c757d;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
+margin: 10px auto;
 
-#fileInput::file-selector-button:hover {
-    transform: scale(1.03);
+background: #6c757d;
+color: white;
 }
+.fileButton:hover { transform: scale(1.03); }
 
 #importButton {
     width: 220px;
