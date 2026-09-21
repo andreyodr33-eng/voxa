@@ -210,10 +210,22 @@
     cursor: pointer;
     display: block;
     margin: 10px auto;
-    padding: 8px;
-    border: 1px solid #ddd;
+}
+
+#fileInput::file-selector-button {
+    height: 44px;
+    padding: 0 18px;
+    margin-right: 10px;
+    border: none;
     border-radius: 12px;
-    background: white;
+    background: #6c757d;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#fileInput::file-selector-button:hover {
+    transform: scale(1.03);
 }
 
 #importButton {
