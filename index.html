@@ -1640,7 +1640,10 @@ document
 
          }
     );
-document .getElementById("callBtn") .addEventListener( "click", function() {
+document .getElementById("callBtn") 
+         .addEventListener( 
+             "click", 
+             async function() {
         if (callActive) {
 
             // Завершаем разговор
@@ -1671,7 +1674,11 @@ document .getElementById("callBtn") .addEventListener( "click", function() {
 
             return;
         }
-
+        const microphoneReady =
+            await startMicrophone();
+        if (!microphoneReady) {
+            return;
+        }
         const audio =
             new Audio("call.wav");
 
