@@ -1493,88 +1493,88 @@ function submitAnswer() {
    ========================================================= */
 
 function processAnswer(text) {
-
-    const node =
-        getNode(
-            App.currentNode
-        );
-
-
-    let matched = false;
-
-    let nextNode = null;
-
-
-    for (
-        const transition
-        of node.transitions
-    ) {
-
-        for (
-            const phrase
-            of transition.accepted
-        ) {
-
-            if (
-                text
-                .toLowerCase()
-                .includes(
-                    phrase.toLowerCase()
-                )
-            ) {
-
-                matched = true;
-
-                nextNode =
-                    transition.next;
-
-                break;
-
-            }
-
-        }
-
-
-        if (matched) {
-
-            break;
-
-        }
-
-    }
-
-
-    addHistory(
-        node.question,
-        text,
-        matched
+const node =
+    getNode(
+        App.currentNode
     );
 
+function normalize(text) {
+    return text
+        .toLowerCase()
+        .replace(/[’']/g, "")
+        .replace(/[.,!?]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+}
 
-    if (nextNode) {
+const normalizedText =
+    normalize(text);
 
-        App.currentNode =
-            nextNode;
+let matched = false;
 
+let nextNode = null;
 
-        showCurrentNode();
+for (
+    const transition
+    of node.transitions
+) {
 
+    for (
+        const phrase
+        of transition.accepted
+    ) {
+
+        const normalizedPhrase =
+            normalize(phrase);
+
+        if (
+            normalizedText.includes(
+                normalizedPhrase
+            )
+            ||
+            normalizedPhrase.includes(
+                normalizedText
+            )
+        ) {
+
+            matched = true;
+
+            nextNode =
+                transition.next;
+
+            break;
+        }
     }
 
-    else {
-
-        document.getElementById(
-            "question"
-        ).textContent =
-            "Sorry, I didn't understand.";
-
-
-        speak(
-            "Sorry, I didn't understand."
-        );
-
+    if (matched) {
+        break;
     }
+}
 
+addHistory(
+    node.question,
+    text,
+    matched
+);
+
+if (nextNode) {
+
+    App.currentNode =
+        nextNode;
+
+    showCurrentNode();
+
+} else {
+
+    document.getElementById(
+        "question"
+    ).textContent =
+        "Sorry, I didn't understand.";
+
+    speak(
+        "Sorry, I didn't understand."
+    );
+}
 }
 
 async function finishCall() {
