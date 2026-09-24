@@ -1218,11 +1218,14 @@ if (englishVoice) {
 
 utter.onend = function() {
 animateMouth(false);
-console.log("CURRENT NODE:", App.currentNode);
+
     const currentNode =
         App.scenario.nodes.find(
             node => node.id === App.currentNode
-        );        
+        ); 
+    console.log("CURRENT NODE:", App.currentNode);
+    console.log("NODE OBJECT:", currentNode);
+    console.log("TRANSITIONS:", currentNode?.transitions);             
 if (
     App.currentNode &&
     App.currentNode.transitions &&
