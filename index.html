@@ -945,7 +945,20 @@ async function loadScenarioList() {
             );
 
         };
+      div.onclick = function() {
+         App.scenario =
+            item.scenario;
 
+      document.getElementById(
+             "scenarioTitle"
+      ).textContent =
+            App.scenario.title;
+
+       alert(
+            "Scenario selected: " +
+             App.scenario.title
+      );
+};
 
         container.appendChild(div);
 
