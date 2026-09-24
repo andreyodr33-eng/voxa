@@ -1,0 +1,99 @@
+{
+  "title": "Hotel",
+  "startNode": "1",
+  "nodes": [
+    {
+      "id": "1",
+      "question": "Good afternoon. How can I help you?",
+      "transitions": [
+        {
+          "accepted": [
+            "I'd like to book a room",
+            "I want to book a room",
+            "I'd like a room",
+            "I need a room"
+          ],
+          "next": "2"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "question": "Certainly. How many nights?",
+      "transitions": [
+        {
+          "accepted": [
+            "I'd like to stay for one night",
+            "just one night",
+            "one night",
+            "one"
+          ],
+          "next": "3"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "question": "What date would you like to stay?",
+      "transitions": [
+        {
+          "accepted": [
+            "I'd like to stay tonight",
+            "tonight",
+            "today",
+            "tomorrow"
+          ],
+          "next": "4"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "question": "What type of room would you like?",
+      "transitions": [
+        {
+          "accepted": [
+            "I'd like a single room",
+            "a single room",
+            "single room",
+            "a room for one"
+          ],
+          "next": "5"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "question": "Certainly. May I have your name, please?",
+      "transitions": [
+        {
+          "accepted": [
+            "My name is John",
+            "my name is",
+            "I'm John",
+            "John"
+          ],
+          "next": "6"
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "question": "Thank you. Your room is booked for one night.",
+      "transitions": [
+        {
+          "accepted": [
+            "Thank you very much",
+            "thank you",
+            "thanks"
+          ],
+          "next": "7"
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "question": "You're welcome. Have a nice day."
+    }
+  ]
+}
