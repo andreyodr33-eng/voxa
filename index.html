@@ -1216,11 +1216,33 @@ if (englishVoice) {
 }
 
 utter.onend = function() {
-    animateMouth(false);
-    if (!callActive) {
-        return;
-    }    
-    startListening();
+animateMouth(false);
+
+if (
+    App.currentNode &&
+    App.currentNode.transitions &&
+    App.currentNode.transitions.length > 0 &&
+    App.currentNode.transitions[0].accepted &&
+    App.currentNode.transitions[0].accepted.length > 0
+) {
+
+    document.getElementById(
+        "scenarioTitle"
+    ).textContent =
+        App.currentNode.transitions[0].accepted[0];
+
+} else {
+
+    document.getElementById(
+        "scenarioTitle"
+    ).textContent = "";
+}
+
+if (!callActive) {
+    return;
+}
+
+startListening();
 };
 utter.onstart = function() {    
     animateMouth(true);
