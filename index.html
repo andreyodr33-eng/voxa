@@ -1218,7 +1218,7 @@ if (englishVoice) {
 
 utter.onend = function() {
 animateMouth(false);
-
+console.log("CURRENT NODE:", App.currentNode);
 if (
     App.currentNode &&
     App.currentNode.transitions &&
