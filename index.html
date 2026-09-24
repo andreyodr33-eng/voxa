@@ -1235,7 +1235,10 @@ if (
         "scenarioTitle"
     ).textContent =
         App.currentNode.transitions[0].accepted[0];
-     document.getElementById("scenarioTitle").style.color = "red";
+     console.log(
+         "HINT:",
+         currentNode.transitions[0].accepted[0]
+         );
 } else {
 
     document.getElementById(
