@@ -87,9 +87,7 @@
         .scenario:hover {
             background: #dddddd;
         }
-        #scenarioTitle {
-            color: white;
-        }    
+            
                 .avatar { 
                 width: 220px; 
                 height: 220px;
@@ -1233,7 +1231,7 @@ if (
         "scenarioTitle"
     ).textContent =
         App.currentNode.transitions[0].accepted[0];
-
+     document.getElementById("scenarioTitle").style.color = "red";
 } else {
 
     document.getElementById(
