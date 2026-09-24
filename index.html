@@ -1218,30 +1218,28 @@ if (englishVoice) {
 
 utter.onend = function() {
 animateMouth(false);
-
-    const currentNode =
+    
+    if  (!callActive) {
+        return;
+    }
+    const node =
         App.scenario.nodes.find(
-            node => node.id === App.currentNode
+            n => n.id === App.currentNode
         ); 
-    console.log("CURRENT NODE:", App.currentNode);
-    console.log("NODE OBJECT:", currentNode);
-    console.log("TRANSITIONS:", currentNode?.transitions);             
+                
 if (
-    App.currentNode &&
-    App.currentNode.transitions &&
-    App.currentNode.transitions.length > 0 &&
-    App.currentNode.transitions[0].accepted &&
-    App.currentNode.transitions[0].accepted.length > 0
+    node &&
+    node.transitions &&
+    node.transitions[0] &&
+    node.transitions[0].accepted &&
+    node.transitions[0].accepted[0]
 ) {
 
     document.getElementById(
         "scenarioTitle"
     ).textContent =
-        App.currentNode.transitions[0].accepted[0];
-     console.log(
-         "HINT:",
-         currentNode.transitions[0].accepted[0]
-         );
+        node.transitions[0].accepted[0];
+     
 } else {
 
     document.getElementById(
@@ -1255,9 +1253,7 @@ if (!callActive) {
 
 startListening();
 };
-utter.onstart = function() {    
-    animateMouth(true);
-};    
+    
 speechSynthesis.speak(utter);
 }
 let mouthTimer = null;
