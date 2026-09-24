@@ -288,7 +288,7 @@ body {
         src="icon-192.png"
         alt="Logo">
 
-    <h2>
+    <h2 id="scenarioTitle">
      Phone Call Simulator
     </h2>
 
@@ -1000,7 +1000,10 @@ async function importScenario() {
 
         App.scenario =
             scenario;
-
+        document.getElementById(
+            "scenarioTitle"
+         ).textContent = 
+            scenario.title;
 
         await loadScenarioList();
 
