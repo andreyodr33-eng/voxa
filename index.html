@@ -911,6 +911,11 @@ async function loadScenarioList() {
     }
     App.scenario =
         scenarios[0].scenario;
+    
+     document.getElementById(
+            "scenarioTitle"
+         ).textContent = 
+           App.scenario.title;
 
     scenarios.forEach(item => {
 
