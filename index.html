@@ -1218,7 +1218,9 @@ if (englishVoice) {
 
 utter.onend = function() {
 animateMouth(true);
-console.log("MOUTH CLOSED");    
+}; 
+utter.onend = function() {
+animateMouth(false);    
     if  (!callActive) {
         return;
     }
