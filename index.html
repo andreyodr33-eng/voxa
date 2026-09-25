@@ -1217,9 +1217,10 @@ if (englishVoice) {
 }
 
 utter.onstart = function() {
-animateMouth(true);
- 
-    
+     animateMouth(true);
+utter.oned = function() { 
+      animateMouth(false);
+};
     if  (!callActive) {
         return;
     }
