@@ -1261,83 +1261,113 @@ startListening();
 speechSynthesis.speak(utter);
 }
     
-let mouthTimer = null;
-
-    
+let mouthTimer = null; let mouthAnimationId = 0;
 function animateMouth(start) {
 const mouth =
     document.querySelector(".mouth");
+
 const teeth =
     document.querySelector(".teeth");
+
 const tongue =
-    document.querySelector(".tongue");    
+    document.querySelector(".tongue");
+
+// Останавливаем предыдущий таймер
 if (mouthTimer) {
     clearTimeout(mouthTimer);
     mouthTimer = null;
 }
 
+// Новый идентификатор запуска
+mouthAnimationId++;
+
+const currentId =
+    mouthAnimationId;
+
+// =========================
+// ЗАКРЫТИЕ РТА
+// =========================
+
 if (!start) {
-mouth.classList.remove("talking");
 
-mouth.setAttribute("rx", "9");
-mouth.setAttribute("ry", "2");
+    mouth.classList.remove("talking");
 
-teeth.setAttribute("height", "0");
-tongue.setAttribute("ry", "0");
-
-return;
-}
-function moveMouth() {
-if (!mouth.classList.contains("talking")) {
-    return;
-}
-
-const state =
-    Math.floor(Math.random() * 4);
-
-if (state === 0) {
-
-    // почти закрытый рот
-    mouth.setAttribute("rx", "10");
-    mouth.setAttribute("ry", "3");
+    mouth.setAttribute("rx", "9");
+    mouth.setAttribute("ry", "2");
 
     teeth.setAttribute("height", "0");
     tongue.setAttribute("ry", "0");
 
-} else if (state === 1) {
-
-    // слегка открыт
-    mouth.setAttribute("rx", "11");
-    mouth.setAttribute("ry", "4");
-
-    teeth.setAttribute("height", "1");
-    tongue.setAttribute("ry", "0");
-
-} else if (state === 2) {
-
-    // нормальное открытие
-    mouth.setAttribute("rx", "11");
-    mouth.setAttribute("ry", "6");
-
-    teeth.setAttribute("height", "2");
-    tongue.setAttribute("ry", "1");
-
-} else {
-
-    // широко открыт
-    mouth.setAttribute("rx", "13");
-    mouth.setAttribute("ry", "8");
-
-    teeth.setAttribute("height", "2");
-    tongue.setAttribute("ry", "2");
+    return;
 }
 
-mouthTimer =
-    setTimeout(moveMouth, 100);
-}
+// =========================
+// ОТКРЫТИЕ РТА
+// =========================
+
 mouth.classList.add("talking");
+
+function moveMouth() {
+
+    // Этот запуск уже устарел
+    if (currentId !== mouthAnimationId) {
+        return;
+    }
+
+    // Рот уже закрыт
+    if (!mouth.classList.contains("talking")) {
+        return;
+    }
+
+    const state =
+        Math.floor(Math.random() * 4);
+
+    if (state === 0) {
+
+        mouth.setAttribute("rx", "10");
+        mouth.setAttribute("ry", "3");
+
+        teeth.setAttribute("height", "0");
+        tongue.setAttribute("ry", "0");
+
+    } else if (state === 1) {
+
+        mouth.setAttribute("rx", "11");
+        mouth.setAttribute("ry", "4");
+
+        teeth.setAttribute("height", "1");
+        tongue.setAttribute("ry", "0");
+
+    } else if (state === 2) {
+
+        mouth.setAttribute("rx", "11");
+        mouth.setAttribute("ry", "6");
+
+        teeth.setAttribute("height", "2");
+        tongue.setAttribute("ry", "1");
+
+    } else {
+
+        mouth.setAttribute("rx", "13");
+        mouth.setAttribute("ry", "8");
+
+        teeth.setAttribute("height", "2");
+        tongue.setAttribute("ry", "2");
+    }
+
+    mouthTimer =
+        setTimeout(
+            moveMouth,
+            100
+        );
+}
+
 moveMouth();
 }
+
+    
+ 
+
 const pupilLeft = document.querySelector(".pupil-left");
 const pupilRight = document.querySelector(".pupil-right");
 function moveEyes() {
