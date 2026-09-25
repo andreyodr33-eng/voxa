@@ -1215,12 +1215,14 @@ if (englishVoice) {
         englishVoice;
 
 }
-
+// начало речи учителя
 utter.onstart = function() {
      animateMouth(true);
+};
+// конец речи учителя    
 utter.onend = function() { 
       animateMouth(false);
-};
+
     if  (!callActive) {
         return;
     }
@@ -1252,7 +1254,7 @@ if (
 if (!callActive) {
     return;
 }
-
+// включение микрофона
 startListening();
 };
     
