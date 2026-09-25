@@ -1216,11 +1216,10 @@ if (englishVoice) {
 
 }
 
-utter.onend = function() {
+
 animateMouth(true);
-}; 
-utter.onend = function() {
-animateMouth(false);    
+utter.onstart = function() { 
+};    
     if  (!callActive) {
         return;
     }
