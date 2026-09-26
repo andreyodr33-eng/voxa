@@ -1231,6 +1231,9 @@ utter.onend = function() {
     if  (!callActive) {
         return;
     }
+    if (!App.currentNode) {
+        return;
+    }    
     const node =
         App.scenario.nodes.find(
             n => n.id === App.currentNode
