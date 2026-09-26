@@ -1173,12 +1173,17 @@ document.addEventListener(
    ========================================================= */
 
 function speak(text) {
+    if (!window.speechSynthesis) {
+        return;
+    }    
 speechSynthesis.cancel();
 
 const utter =
     new SpeechSynthesisUtterance(text);
 
-utter.lang = "en-US";
+utter.lang = 
+    App.scenario.language ||
+    "en-US";
 
 utter.rate = 0.9;
 
